@@ -28,7 +28,12 @@ predictions = classifier.predict(test_attributes)
 print(confusion_matrix(test_labels, predictions))
 print(classification_report(test_labels, predictions))
 
+# --------------------------------------------------------------------------------- Plot results
+# TODO: Create a plot to see things
+
+
 if __name__ == '__main__':
+    # --------------------------------------------------------------------------------- Dump and reload
     import pickle
 
     filename = 'classifier.pkl'

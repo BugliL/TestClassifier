@@ -54,6 +54,7 @@ for i, (column_x, column_y) in enumerate(graph_axes):
 
 fig.set_size_inches(w=30, h=20, forward=True)
 fig.suptitle('SVC with linear kernel', fontsize=30)
+plt.savefig("graph.png")
 plt.show()
 
 if __name__ == '__main__':

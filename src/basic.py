@@ -2,12 +2,15 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
+from sklearn.utils import shuffle
 
 # %matplotlib inline
 
 
 label_column = 'Class'
-bankdata = pd.read_csv("../datasets/input/bill_authentication.csv")
+bankdata = pd.read_csv("../datasets/input/spheres.csv")
+bankdata = shuffle(bankdata)
+bankdata.reset_index(inplace=True, drop=True)
 columns = [c for c in bankdata.columns if c != label_column]
 attributes = bankdata.drop(label_column, axis=1)
 labels = bankdata[label_column]
@@ -88,7 +91,7 @@ for i, (column_x, column_y) in enumerate(graph_axes):
 
 fig.set_size_inches(w=30, h=20, forward=True)
 fig.suptitle('SVC with linear kernel', fontsize=30)
-plt.savefig("../dataset/output/graph.png")
+plt.savefig("../datasets/output/graph.png")
 plt.show()
 
 if __name__ == '__main__':

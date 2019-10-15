@@ -37,16 +37,6 @@ predictions = classifier.predict(test_attributes)
 # --------------------------------------------------------------------------------- Plot results
 import itertools
 
-dataset = test_attributes  # .iloc[:10,:]  # .iloc[:, :2].values  # first try with 2 columns
-h = 0.1
-
-graph_axes = list(itertools.combinations(columns, 2))
-column_indexes = {c: i for i, c in enumerate(columns)}
-column_number = len(column_indexes.items())
-n = len(graph_axes)
-boxes_number = 3
-fig, axs = plt.subplots(int(n / boxes_number), boxes_number)
-
 
 def create_dataset_from_mesh_grid(xx, yy, columns_x_y):
     (column_x, column_y) = columns_x_y
@@ -64,7 +54,8 @@ def create_dataset_from_mesh_grid(xx, yy, columns_x_y):
     return np.c_[arr[0], arr[1], arr[2], arr[3]]
 
 
-def create_meshed_dataset():
+def create_meshed_dataset(dataset):
+    h = 0.1
     x_, y_ = dataset.iloc[:, columns.index(column_x)], dataset.iloc[:, columns.index(column_y)]
     x_min, x_max = x_.min() - 1, x_.max() + 1
     y_min, y_max = y_.min() - 1, y_.max() + 1
@@ -72,22 +63,35 @@ def create_meshed_dataset():
     return xx, yy, create_dataset_from_mesh_grid(xx, yy, (column_x, column_y))
 
 
+column_indexes = {c: i for i, c in enumerate(columns)}
+column_number = len(column_indexes.items())
+
+dataset_to_plot = attributes
+predictions_to_plot = labels
+
+# boxes_number = 3
+# n = len(graph_axes)
+# fig, axs = plt.subplots(int(n / boxes_number), boxes_number)
+
+graph_axes = list(itertools.combinations(columns, 2))
+fig, axs = plt.subplots(2, 3)
+
 for i, (column_x, column_y) in enumerate(graph_axes):
     r, c = divmod(i, 2)
     g = axs[c, r]
 
-    xx, yy, mesh_grid = create_meshed_dataset()
+    xx, yy, mesh_grid = create_meshed_dataset(dataset=dataset_to_plot)
     Z = classifier.predict(mesh_grid).reshape(xx.shape)
 
     g.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.3)
 
-    g.scatter(x=dataset[column_x],
-              y=dataset[column_y],
-              c=predictions,
+    g.scatter(x=dataset_to_plot[column_x],
+              y=dataset_to_plot[column_y],
+              c=predictions_to_plot,
               cmap=plt.cm.coolwarm)
 
-    g.set(xlabel=column_x,
-          ylabel=column_y)
+    g.set(xlabel=columns.index(column_x),
+          ylabel=columns.index(column_y))
 
 fig.set_size_inches(w=30, h=20, forward=True)
 fig.suptitle('SVC with linear kernel', fontsize=30)

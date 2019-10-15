@@ -53,4 +53,12 @@ def plot_solutions(solutions_list: list):
 if __name__ == '__main__':
     solutions1 = get_solutions((0., 0., 0.), 5)
     solutions2 = get_solutions((10., 10., 10.), 10)
-    plot_solutions([solutions1, solutions2])
+
+    import pandas as pd
+
+    solutions1_pd = pd.DataFrame([x + (0,) for x in solutions1])
+    solutions2_pd = pd.DataFrame([x + (1,) for x in solutions2])
+
+    print(solutions1_pd.to_csv(index=False))
+    print(solutions2_pd.to_csv(index=False))
+    # plot_solutions([solutions1, solutions2])

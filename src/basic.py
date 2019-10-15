@@ -7,7 +7,7 @@ from matplotlib.pyplot import figure
 
 
 label_column = 'Class'
-bankdata = pd.read_csv("../datasets/bill_authentication.csv")
+bankdata = pd.read_csv("../datasets/input/bill_authentication.csv")
 columns = [c for c in bankdata.columns if c != label_column]
 attributes = bankdata.drop(label_column, axis=1)
 labels = bankdata[label_column]
@@ -88,7 +88,7 @@ for i, (column_x, column_y) in enumerate(graph_axes):
 
 fig.set_size_inches(w=30, h=20, forward=True)
 fig.suptitle('SVC with linear kernel', fontsize=30)
-plt.savefig("graph.png")
+plt.savefig("../dataset/output/graph.png")
 plt.show()
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ from sklearn.utils import shuffle
 
 
 label_column = 'Class'
-bankdata = pd.read_csv("../datasets/input/spheres.csv")
+bankdata = pd.read_csv("../datasets/input/bill_authentication.csv")
 bankdata = shuffle(bankdata)
 bankdata.reset_index(inplace=True, drop=True)
 columns = [c for c in bankdata.columns if c != label_column]
@@ -23,7 +23,7 @@ from sklearn.svm import SVC
 model = model_selection.train_test_split(attributes, labels, test_size=0.20)
 train_attributes, test_attributes, train_labels, test_labels = model
 
-classifier = SVC(kernel='rbf')
+classifier = SVC(kernel='rbf', C=100, gamma=1)
 classifier.fit(train_attributes, train_labels)
 
 # ------------------------------------------------------------------------------- Processing and evaluating
@@ -94,7 +94,7 @@ for i, (column_x, column_y) in enumerate(graph_axes):
           ylabel=columns.index(column_y))
 
 fig.set_size_inches(w=30, h=20, forward=True)
-fig.suptitle('SVC with linear kernel', fontsize=30)
+fig.suptitle('SVC with RBF kernel', fontsize=30)
 plt.savefig("../datasets/output/graph.png")
 plt.show()
 
